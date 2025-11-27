@@ -1,0 +1,65 @@
+name: CI/CD Pipeline MLOps
+
+# Se activa cuando haces push a la rama 'main'
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test_and_build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. Bajar el código del repo
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. Instalar Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    # 3. Instalar dependencias
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+
+    # 4. DESCARGAR MODELO EXTERNO (Requisito "Modelo Externo")
+    # Usamos tus secretos para conectarnos a S3 y bajar el .onnx
+    - name: Download Model from S3
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
+      run: |
+        # Usamos aws cli que ya viene instalado en GitHub Actions
+        aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/models/iris.onnx iris.onnx
+        echo "Modelo descargado correctamente"
+
+    # 5. Correr Pruebas (Unit Tests)
+    # Si esto falla, el despliegue se detiene automáticamente
+    - name: Run Tests
+      env:
+        S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+      run: |
+        pytest
+
+    # 6. Login en AWS ECR
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: us-east-1
+
+    # 7. Construir y Subir Imagen Docker
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+        ECR_REPOSITORY: mlops-inference
+        IMAGE_TAG: latest
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
