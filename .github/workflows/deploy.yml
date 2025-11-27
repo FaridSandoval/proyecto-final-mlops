@@ -31,7 +31,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: us-east-1
+        AWS_DEFAULT_REGION: us-east-2
       run: |
         # Usamos aws cli que ya viene instalado en GitHub Actions
         aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/models/iris.onnx iris.onnx
@@ -52,7 +52,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: us-east-1
+        AWS_REGION: us-east-2
 
     # 7. Construir y Subir Imagen Docker
     - name: Build, tag, and push image to Amazon ECR
