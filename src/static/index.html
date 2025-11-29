@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificador de Flores Iris</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; }
+        h1 { text-align: center; color: #333; font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; color: #666; font-size: 0.9rem; }
+        input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 1rem; background-color: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #45a049; }
+        #result { margin-top: 1.5rem; text-align: center; font-weight: bold; font-size: 1.2rem; color: #333; min-height: 1.5em; }
+        .loading { color: #999; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🌸 Detector de Flores</h1>
+        <div class="input-group">
+            <label>Largo del Sépalo</label>
+            <input type="number" step="0.1" id="sepal_length" value="5.1">
+        </div>
+        <div class="input-group">
+            <label>Ancho del Sépalo</label>
+            <input type="number" step="0.1" id="sepal_width" value="3.5">
+        </div>
+        <div class="input-group">
+            <label>Largo del Pétalo</label>
+            <input type="number" step="0.1" id="petal_length" value="1.4">
+        </div>
+        <div class="input-group">
+            <label>Ancho del Pétalo</label>
+            <input type="number" step="0.1" id="petal_width" value="0.2">
+        </div>
+        <button onclick="predict()">Predecir Tipo de Flor</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function predict() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<span class="loading">Analizando...</span>';
+            
+            const data = {
+                sepal_length: parseFloat(document.getElementById('sepal_length').value),
+                sepal_width: parseFloat(document.getElementById('sepal_width').value),
+                petal_length: parseFloat(document.getElementById('petal_length').value),
+                petal_width: parseFloat(document.getElementById('petal_width').value)
+            };
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                
+                // Mostrar resultado con emoji según la clase
+                let emoji = '🌸';
+                if (result.class_name == 'Setosa') emoji = '🌺';
+                if (result.class_name == 'Virginica') emoji = '🌷';
+                
+                resultDiv.innerHTML = `${emoji} Es una: <span style="color:#4CAF50">${result.class_name}</span>`;
+            } catch (error) {
+                resultDiv.innerHTML = '❌ Error al predecir';
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

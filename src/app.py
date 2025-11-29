@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import onnxruntime as ort
 import numpy as np
@@ -12,6 +14,9 @@ app = FastAPI()
 BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 MODEL_KEY = "models/iris.onnx" # Ruta dentro del bucket
 LOCAL_MODEL_PATH = "iris.onnx"
+
+# ESTO ES LO NUEVO: Montar la carpeta de archivos estáticos
+app.mount("/static", StaticFiles(directory="src/static"), name="static")
 
 # Variable global para el modelo
 session = None
@@ -38,7 +43,8 @@ async def startup_event():
 
 @app.get("/")
 def read_root():
-    return {"message": "API Iris MLOps Activa"}
+    # ESTO ES LO NUEVO: Devolver el HTML en lugar de JSON
+    return FileResponse('src/static/index.html')
 
 @app.post("/predict")
 def predict(iris_input: IrisInput):
@@ -64,4 +70,7 @@ def predict(iris_input: IrisInput):
         save_prediction_log(BUCKET_NAME, data.tolist(), pred)
     
     clases = ["Setosa", "Versicolor", "Virginica"]
-    return {"clase": clases[pred], "id": pred}
+    
+    # CORRECCIÓN IMPORTANTE: 
+    # Cambié "clase" por "class_name" para que el HTML lo entienda
+    return {"class_name": clases[pred], "class_id": pred}
