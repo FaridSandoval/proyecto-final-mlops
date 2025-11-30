@@ -64,31 +64,43 @@ CI/CD con GitHub Actions:
 └── README.md            # Documentación
 ```
 
-## Configuración Local
+## Configuración Local (Para Desarrolladores)
 
 Si deseas correr este proyecto en tu máquina local:
 
-1. Clonar el repositorio:
-    git clone [https://github.com/FaridSandoval/proyecto-final-mlops.git](https://github.com/FaridSandoval/proyecto-final-mlops.git)
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone https://github.com/FaridSandoval/proyecto-final-mlops.git
     cd proyecto-final-mlops
+    ```
 
-2. Instalar dependencias:
+2.  **Instalar dependencias:**
+    ```bash
     pip install -r requirements.txt
+    ```
 
-3. Configurar Variables de Entorno: Necesitas credenciales de AWS con permisos de lectura/escritura en S3.
-    # En Linux/Mac
+3.  **Configurar Variables de Entorno:**
+    Necesitas credenciales de AWS con permisos de lectura/escritura en S3.
+
+    **En Linux/Mac:**
+    ```bash
     export AWS_ACCESS_KEY_ID="TU_KEY"
     export AWS_SECRET_ACCESS_KEY="TU_SECRET"
     export S3_BUCKET_NAME="NOMBRE_DEL_BUCKET"
+    ```
 
-    # En Windows (PowerShell)
+    **En Windows (PowerShell):**
+    ```powershell
     $env:AWS_ACCESS_KEY_ID="TU_KEY"
     $env:AWS_SECRET_ACCESS_KEY="TU_SECRET"
     $env:S3_BUCKET_NAME="NOMBRE_DEL_BUCKET"
+    ```
 
-4. Ejecutar la aplicación:
+4.  **Ejecutar la aplicación:**
+    ```bash
     uvicorn src.app:app --reload
-    Visita http://localhost:8000 para ver la interfaz.
+    ```
+    Visita `http://localhost:8000` para ver la interfaz.
 
 ## Endpoints de la API
 | Método | Endpoint | Descripción |
@@ -98,7 +110,7 @@ Si deseas correr este proyecto en tu máquina local:
 | `GET` | `/docs` | Documentación técnica automática (Swagger UI). |
 
 ## Autores
-Proyecto realizado para la asignatura de Despliegue de Soluciones Analíticas.
+Proyecto realizado para la asignatura de **Despliegue de Soluciones Analíticas**.
 
-Diana Varela
-Farid Sandoval
+* **Diana Varela**
+* **Farid Sandoval**
