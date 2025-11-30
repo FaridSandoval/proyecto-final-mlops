@@ -68,14 +68,14 @@ CI/CD con GitHub Actions:
 
 Si deseas correr este proyecto en tu máquina local:
 
-    1. Clonar el repositorio:
+1. Clonar el repositorio:
     git clone [https://github.com/FaridSandoval/proyecto-final-mlops.git](https://github.com/FaridSandoval/proyecto-final-mlops.git)
-cd proyecto-final-mlops
+    cd proyecto-final-mlops
 
-    2. Instalar dependencias:
+2. Instalar dependencias:
     pip install -r requirements.txt
 
-    3. Configurar Variables de Entorno: Necesitas credenciales de AWS con permisos de lectura/escritura en S3.
+3. Configurar Variables de Entorno: Necesitas credenciales de AWS con permisos de lectura/escritura en S3.
     # En Linux/Mac
     export AWS_ACCESS_KEY_ID="TU_KEY"
     export AWS_SECRET_ACCESS_KEY="TU_SECRET"
@@ -86,18 +86,19 @@ cd proyecto-final-mlops
     $env:AWS_SECRET_ACCESS_KEY="TU_SECRET"
     $env:S3_BUCKET_NAME="NOMBRE_DEL_BUCKET"
 
-    4. Ejecutar la aplicación:
+4. Ejecutar la aplicación:
     uvicorn src.app:app --reload
     Visita http://localhost:8000 para ver la interfaz.
 
 ## Endpoints de la API
-    Método,Endpoint,Descripción
-    GET,/,Carga la Interfaz Gráfica de Usuario (Web).
-    POST,/predict,Recibe JSON con medidas de la flor y devuelve la clase predicha.
-    GET,/docs,Documentación técnica automática (Swagger UI).
+| Método | Endpoint | Descripción |
+| :--- | :--- | :--- |
+| `GET` | `/` | Carga la Interfaz Gráfica de Usuario (Web). |
+| `POST` | `/predict` | Recibe JSON con medidas de la flor y devuelve la clase predicha. |
+| `GET` | `/docs` | Documentación técnica automática (Swagger UI). |
 
 ## Autores
 Proyecto realizado para la asignatura de Despliegue de Soluciones Analíticas.
 
-    Diana Varela
-    Farid Sandoval
+Diana Varela
+Farid Sandoval
