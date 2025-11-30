@@ -1,0 +1,20 @@
+# Python garbage
+__pycache__/
+*.pyc
+
+# Variables de entorno (SEGURIDAD CRÍTICA)
+.env
+
+# Archivos del sistema
+.DS_Store
+
+# El Modelo (REQUISITO DE RÚBRICA)
+# Esto asegura que nunca se suba el modelo,
+# obligando al código a descargarlo de AWS S3.
+*.onnx
+iris.onnx
+
+# Carpetas de entornos virtuales (por si acaso)
+venv/
+.venv/
+env/
