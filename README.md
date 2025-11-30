@@ -39,7 +39,7 @@ CI/CD con GitHub Actions:
         Build: Construcción de imagen Docker optimizada.
         Deploy: Despliegue continuo a Render (Zero Downtime).
 
-🛠️ Stack Tecnológico
+ Stack Tecnológico
     Lenguaje: Python 3.9
     Framework Web: FastAPI
     Motor de Inferencia: ONNX Runtime
@@ -50,6 +50,7 @@ CI/CD con GitHub Actions:
 
 ## Estructura del Proyecto
 
+```text
 /
 ├── .github/workflows/   # Definición del Pipeline CI/CD
 ├── src/
