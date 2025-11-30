@@ -62,6 +62,7 @@ CI/CD con GitHub Actions:
 ├── Dockerfile           # Receta de construcción del contenedor
 ├── requirements.txt     # Dependencias del proyecto
 └── README.md            # Documentación
+```
 
 ## Configuración Local
 
