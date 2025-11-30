@@ -64,7 +64,7 @@ CI/CD con GitHub Actions:
 └── README.md            # Documentación
 ```
 
-## Configuración Local (Para Desarrolladores)
+## Configuración Local
 
 Si deseas correr este proyecto en tu máquina local:
 
